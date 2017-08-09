@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Регистрация пользователя</title>
+{% endblock %}
+
+{% block navbar-header %}
+    <a class="navbar-brand">Регистрация пользователя</a>
+{% endblock %}
+
+{% block navigation %}
+    <!-- Определение активной вкладки -->
+    <li class="active"><a href="/tables/">Таблицы</a></li>
+    <li><a href="/gen_ref/">Реферальная ссылка</a></li>
+    <li><a href="/top/">Топ 10</a></li>
+{% endblock %}
+
+{% block messages %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                <a class="close" data-dismiss="alert">×</a>
+                {{ message|safe }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if general.non_field_errors %}
+        {% for error in general.non_field_errors %}
+            <div class="alert alert-danger">
+                <a class="close" data-dismiss="alert">×</a>
+                {{ error }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% for field in general %}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <a class="close" data-dismiss="alert">×</a>
+                    {{ error }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+
+    {% if additional.non_field_errors %}
+        {% for error in additional.non_field_errors %}
+            <div class="alert alert-danger">
+                <a class="close" data-dismiss="alert">×</a>
+                {{ error }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% for field in additional %}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <a class="close" data-dismiss="alert">×</a>
+                    {{ error }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="panel panel-default panel-my">
+        {% if my_ref %}
+        <div>
+            <div class="panel-heading panel-heading-my"><h4>Мой источник ссылки</h4></div>
+            <table class="local_admin_table table table-striped" id="my_owner">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-1" style="text-align: center;">#</th>
+                            <th class="col-sm-3">Имя</th>
+                            <th class="col-sm-2">Логин</th>
+                            <th class="col-sm-3">E-mail</th>
+                            <th class="col-sm-3">Очки</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td style="text-align: center;">{{ forloop.counter }}</td>
+                                <td>{{ my_ref.user_stat.first_name }} {{ my_ref.user_stat.last_name }}</td>
+                                <td>{{ my_ref.user_stat.username }}</td>
+                                <td>{{ my_ref.user_stat.email }}</td>
+                                <td>{{ my_ref.point }}</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+        <div>
+            <div class="panel-heading panel-heading-my"><h4>Мои рефералы</h4></div>
+            <table class="local_admin_table table table-striped" id="ref_table">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-1" style="text-align: center;">#</th>
+                            <th class="col-sm-3">Имя</th>
+                            <th class="col-sm-2">Логин</th>
+                            <th class="col-sm-3">E-mail</th>
+                            <th class="col-sm-3">Очки</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in referals %}
+                            <tr>
+                                <td style="text-align: center;">{{ forloop.counter }}</td>
+                                <td>{{ u.user_stat.first_name }} {{ u.user_stat.last_name }}</td>
+                                <td>{{ u.user_stat.username }}</td>
+                                <td>{{ u.user_stat.email }}</td>
+                                <td>{{ u.point }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

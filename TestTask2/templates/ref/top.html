@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Регистрация пользователя</title>
+{% endblock %}
+
+{% block navbar-header %}
+    <a class="navbar-brand">Регистрация пользователя</a>
+{% endblock %}
+
+{% block navigation %}
+    <!-- Определение активной вкладки -->
+    <li><a href="/tables/">Таблицы</a></li>
+    <li><a href="/gen_ref/">Реферальная ссылка</a></li>
+    <li class="active"><a href="/top/">Топ 10</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="panel panel-default panel-my">
+        <div>
+                <table class="local_admin_table table table-striped" id="top_table">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-1" style="text-align: center;">#</th>
+                            <th class="col-sm-3">Имя</th>
+                            <th class="col-sm-2">Логин</th>
+                            <th class="col-sm-3">E-mail</th>
+                            <th class="col-sm-3">Очки</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in top %}
+                            <tr>
+                                <td style="text-align: center;">{{ forloop.counter }}</td>
+                                <td>{{ u.user_stat.first_name }} {{ u.user_stat.last_name }}</td>
+                                <td>{{ u.user_stat.username }}</td>
+                                <td>{{ u.user_stat.email }}</td>
+                                <td>{{ u.point }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
